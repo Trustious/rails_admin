@@ -1,3 +1,6 @@
+# require Rails.root.join('lib/exporter', 'exporter.rb')
+# require Rails.root.join('lib', 'association_manager.rb')
+#require '/home/ekoshairy/Trustious/Git/Trustious-Alpha/lib/exporter/exporter.rb'
 module RailsAdmin
   module Config
     module Actions
@@ -13,17 +16,16 @@ module RailsAdmin
         end
 
         register_instance_option :controller do
+
           Proc.new do
 
-            if format = params[:json] && :json || params[:csv] && :csv || params[:xml] && :xml
-              request.format = format
-              @schema = params[:schema].symbolize if params[:schema] # to_json and to_xml expect symbols for keys AND values.
-              @objects = list_entries(false, @model_config, :export)
-              index
-            else
-              render @action.template_name
-            end
-
+             if request.post?
+                @ids = list_entries(false, @model_config, :export).entries.map(& :_id)
+                Exporter::Exporter.new.export_query_items @ids
+                flash[:success] = "#{@ids.count} items will be exported, you will recieve an email with export results shortly."
+             else
+               render @action.template_name
+           end
           end
         end
 

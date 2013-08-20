@@ -95,6 +95,13 @@ en:
         link: "Export found %{model_label_plural}"
         bulk_link: "Export selected %{model_label_plural}"
         done: "exported"
+      import:
+        title: "Import"
+        menu: "Import"
+        breadcrumb: "Import"
+        link: "Import"
+        bulk_link: "Import"
+        done: "File successfully uploaded! Check your email for import report. "
       history_index:
         title: "History for %{model_label_plural}"
         menu: "History"
@@ -122,6 +129,7 @@ en:
       new_model: "%{name} (new)"
       merge_items: "The following Items will be merged into two items"
       merge_tags: "The following Tags will be merged into one tag"
+      import: "Upload Items from CSV file"
     export:
       confirmation: "Export to %{name}"
       select: "Select fields to export"

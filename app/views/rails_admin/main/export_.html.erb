@@ -1,0 +1,21 @@
+<h1>File Upload</h1>
+<%= form_for :export, :url=>{ :action=>"export"}, :html => { :multipart => true } do |f| %>
+<table>
+ <tr>
+   <td>
+    <label for="import_file">
+      Items are ready for export. 
+    </label>
+  </td>
+</tr>
+<tr>
+ 
+ <td colspan='2'>
+  <button class="btn btn-primary" type="submit">
+   
+    Export Items </button>
+  </td>
+</tr>
+</table>
+<% end %>
+

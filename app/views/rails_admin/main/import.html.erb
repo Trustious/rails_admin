@@ -1,0 +1,34 @@
+<h1>File Upload</h1>
+<%= form_for :upload_file, :url=>{ :action=>"import"}, :html => { :multipart => true } do |f| %>
+<table>
+ <tr>
+   <td>
+    <label for="import_file">
+      Select a CSV File :
+    </label>
+  </td>
+  <td >
+  <%= f.file_field :file%>
+ </td>
+
+</tr>
+<tr>
+  <td>
+    <label for="category">
+      Select Imported Items Category :
+    </label>
+  </td>
+  <td>
+    <%= f.select :category, options_for_select(["Category"]+Tag.categories.entries.map {|c| c.tagname})  %>
+  </td>
+</tr>
+<tr>
+ <td colspan='2'>
+  <button class="btn btn-primary" type="submit">
+   
+    Upload File</button>
+  </td>
+</tr>
+</table>
+<% end %>
+

@@ -72,5 +72,5 @@ group :development, :test do
   gem 'devise'
   gem 'paperclip', '~> 2.7'
 end
-
+ 
 gemspec
