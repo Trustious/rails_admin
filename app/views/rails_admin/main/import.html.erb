@@ -19,7 +19,7 @@
     </label>
   </td>
   <td>
-    <%= f.select :category, options_for_select(["Category"]+Tag.categories.entries.map {|c| c.tagname})  %>
+    <%= f.select :category, options_for_select(["Category"]+Tag.first_level_categorization_nodes.map(&:tagname).sort)  %>
   </td>
 </tr>
 <tr>
