@@ -10,7 +10,6 @@ module RailsAdmin
     include RailsAdmin::ApplicationHelper
     include Maintenance::Tags
 
-
     layout :get_layout
 
     before_filter :get_model, :except => RailsAdmin::Config::Actions.all(:root).map(&:action_name)
@@ -33,7 +32,6 @@ module RailsAdmin
     def replace_and_merge tagname1, tagname2
       Maintenance::Tags.replace_and_merge(tagname1, tagname2)
     end
-    
     def bulk_moderate items
       items.each do |item|
         item.moderate= true
@@ -43,7 +41,6 @@ module RailsAdmin
     def bulk_action
       self.send(params[:bulk_action]) if params[:bulk_action].in?(RailsAdmin::Config::Actions.all(:controller => self, :abstract_model => @abstract_model).select(&:bulkable?).map(&:route_fragment))
     end
-
 
     def persist_objects
       @filtered_objs = @objects
@@ -57,15 +54,15 @@ module RailsAdmin
    #   if auth_scope = @authorization_adapter && @authorization_adapter.query(:create, model_config.abstract_model)
     #    scope = scope.merge(auth_scope)
      # end
-     scope = scope.instance_eval(&additional_scope) if additional_scope
-     @entries = get_collection(is_edit, model_config, scope, pagination)
-     @entries
-   end
+      scope = scope.instance_eval(&additional_scope) if additional_scope
+      @entries = get_collection(is_edit, model_config, scope, pagination)
+      @entries
+    end
 
 
-   private
+  private
 
-   def get_layout
+  def get_layout
     "rails_admin/#{request.headers['X-PJAX'] ? 'pjax' : 'application'}"
   end
 

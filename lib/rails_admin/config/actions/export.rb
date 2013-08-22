@@ -1,6 +1,3 @@
-# require Rails.root.join('lib/exporter', 'exporter.rb')
-# require Rails.root.join('lib', 'association_manager.rb')
-#require '/home/ekoshairy/Trustious/Git/Trustious-Alpha/lib/exporter/exporter.rb'
 module RailsAdmin
   module Config
     module Actions

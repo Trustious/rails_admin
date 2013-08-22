@@ -55,7 +55,6 @@ RailsAdmin.config do |config|
         bindings[:abstract_model].model.to_s == "Item" || bindings[:abstract_model].model.to_s == "Tag" || bindings[:abstract_model].model.to_s == "Photo"
       end
     end
-
     merge_items do
       visible do
         bindings[:abstract_model].model.to_s == "Item"
