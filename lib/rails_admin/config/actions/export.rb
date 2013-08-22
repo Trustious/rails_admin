@@ -21,7 +21,7 @@ module RailsAdmin
 
              if request.post?
                 @ids = list_entries(false, @model_config, :export).entries.map(& :_id)
-                Exporter::Exporter.new.export_query_items @ids
+                Exporter::Exporter.new.export_query_items @ids, current_person
                 flash[:success] = "#{@ids.count} items will be exported, you will recieve an email with export results shortly."
              else
                render @action.template_name
