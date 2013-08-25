@@ -24,8 +24,8 @@ module RailsAdmin
               category = params[:upload_file][:category]
 
               if csv_file != nil && category != 'Category'
-                importer =   Importer::GenericImporter.new
-                importer.upload_spreadsheet category, csv_file, current_person
+                importer =   Importer::GenericImporter.new category
+                importer.upload_spreadsheet csv_file, current_person
                 flash[:success] = "Success ! The file:"+csv_file.original_filename+" containing "+ category.to_s+" was uploaded and is ready for import. You will recieve an email with import results once the file import is processed."
               elsif csv_file == nil 
                flash[:error] = "Opps! You forgot to select the file to be imported !"
