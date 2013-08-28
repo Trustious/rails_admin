@@ -1,6 +1,7 @@
 require 'rails_admin/config/actions/merge_tags'
 require 'rails_admin/config/actions/merge_items'
 require 'rails_admin/config/actions/moderate'
+require 'rails_admin/config/actions/import'
 
   module RailsAdmin
     module Config
@@ -12,6 +13,12 @@ require 'rails_admin/config/actions/moderate'
           RailsAdmin::Config::Actions.register(self)
         end
         class Moderate < RailsAdmin::Config::Actions::Base
+          RailsAdmin::Config::Actions.register(self)
+        end
+        class Import < RailsAdmin::Config::Actions::Base
+          RailsAdmin::Config::Actions.register(self)
+        end
+        class Export < RailsAdmin::Config::Actions::Base
           RailsAdmin::Config::Actions.register(self)
         end
       end
@@ -26,21 +33,29 @@ RailsAdmin.config do |config|
     show
     edit
     delete
-    export
+    export do
+     visible do
+        bindings[:abstract_model].model.to_s == "Item"
+      end
+    end
+    import do
+      visible do
+        bindings[:abstract_model].model.to_s == "Item"
+      end
+    end
     show_in_app
     bulk_delete
-      merge_tags do
+    merge_tags do
       visible do
         bindings[:abstract_model].model.to_s == "Tag"
       end
     end
-     moderate do
+    moderate do
       visible do
         bindings[:abstract_model].model.to_s == "Item" || bindings[:abstract_model].model.to_s == "Tag" || bindings[:abstract_model].model.to_s == "Photo"
       end
     end
-
-      merge_items do
+    merge_items do
       visible do
         bindings[:abstract_model].model.to_s == "Item"
       end

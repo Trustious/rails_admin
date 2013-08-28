@@ -10,7 +10,6 @@ module RailsAdmin
     include RailsAdmin::ApplicationHelper
     include Maintenance::Tags
 
-
     layout :get_layout
 
     before_filter :get_model, :except => RailsAdmin::Config::Actions.all(:root).map(&:action_name)
@@ -43,7 +42,6 @@ module RailsAdmin
       self.send(params[:bulk_action]) if params[:bulk_action].in?(RailsAdmin::Config::Actions.all(:controller => self, :abstract_model => @abstract_model).select(&:bulkable?).map(&:route_fragment))
     end
 
-  
     def persist_objects
       @filtered_objs = @objects
       if params.has_key?(:f)
@@ -60,27 +58,27 @@ module RailsAdmin
       @entries = get_collection(is_edit, model_config, scope, pagination)
       @entries
     end
-    
-
-    private
-    
-    def get_layout
-      "rails_admin/#{request.headers['X-PJAX'] ? 'pjax' : 'application'}"
-    end
-
-    def back_or_index
-      params[:return_to].presence && params[:return_to].include?(request.host) && (params[:return_to] != request.fullpath) ? params[:return_to] : index_path
-    end
 
 
-    def get_sort_hash(model_config)
-      abstract_model = model_config.abstract_model
-      params[:sort] = params[:sort_reverse] = nil unless model_config.list.fields.map {|f| f.name.to_s}.include? params[:sort]
+  private
 
-      params[:sort] ||= model_config.list.sort_by.to_s
-      params[:sort_reverse] ||= 'false'
+  def get_layout
+    "rails_admin/#{request.headers['X-PJAX'] ? 'pjax' : 'application'}"
+  end
 
-      field = model_config.list.fields.find{ |f| f.name.to_s == params[:sort] }
+  def back_or_index
+    params[:return_to].presence && params[:return_to].include?(request.host) && (params[:return_to] != request.fullpath) ? params[:return_to] : index_path
+  end
+
+
+  def get_sort_hash(model_config)
+    abstract_model = model_config.abstract_model
+    params[:sort] = params[:sort_reverse] = nil unless model_config.list.fields.map {|f| f.name.to_s}.include? params[:sort]
+
+    params[:sort] ||= model_config.list.sort_by.to_s
+    params[:sort_reverse] ||= 'false'
+
+    field = model_config.list.fields.find{ |f| f.name.to_s == params[:sort] }
 
       column = if field.nil? || field.sortable == true # use params[:sort] on the base table
         "#{abstract_model.table_name}.#{params[:sort]}"
@@ -116,7 +114,7 @@ module RailsAdmin
         obj = @objects[session["index"]]
         @object.resolve true 
         redirect_to edit_path(:id => obj.id, :return_to => params[:return_to]), :flash => { :success => notice }
-       elsif params[:_invalid_another]
+      elsif params[:_invalid_another]
         @objects ||= list_entries(true)
         obj = @objects[session["index"]]
         @object.resolve false 
@@ -171,12 +169,12 @@ module RailsAdmin
     def get_collection(is_edit, model_config, scope, pagination)
       or_filters = Hash.new
       if params[:f] != nil
-      params[:f].each  do |param|
-        puts param[0]
-        or_filters[param[0]] = param[1] if param[0].start_with? "OR"
-        params[:f].delete param[0] if param[0].start_with? "OR"
+        params[:f].each  do |param|
+          puts param[0]
+          or_filters[param[0]] = param[1] if param[0].start_with? "OR"
+          params[:f].delete param[0] if param[0].start_with? "OR"
+        end
       end
-    end
       puts or_filters
       if params.has_key?(:object_type)
         if params[:object_type] != "All"
@@ -271,31 +269,37 @@ module RailsAdmin
       params[:f].delete(:reason) if params[:f] != nil
       params[:f].delete(:status) if params[:f] != nil
      # params[:f].merge(:or_filters) if :or_filters.present?
-      return objects
-    end
-
-  
+     return objects
+   end
 
 
-    def get_association_scope_from_params
-      return nil unless params[:associated_collection].present?
-      source_abstract_model = RailsAdmin::AbstractModel.new(to_model_name(params[:source_abstract_model]))
-      source_model_config = source_abstract_model.config
-      source_object = source_abstract_model.get(params[:source_object_id])
-      action = params[:current_action].in?(['create', 'update']) ? params[:current_action] : 'edit'
-      @association = source_model_config.send(action).fields.find{|f| f.name == params[:associated_collection].to_sym }.with(:controller => self, :object => source_object)
-      @association.associated_collection_scope
-    end
 
-    def associations_hash
-      associations = {}
-      @abstract_model.associations.each do |association|
-        if [:has_many, :has_and_belongs_to_many].include?(association[:type])
-          records = Array(@object.send(association[:name]))
-          associations[association[:name]] = records.collect(&:id)
-        end
-      end
-      associations
-    end
+
+   def get_association_scope_from_params
+    return nil unless params[:associated_collection].present?
+    source_abstract_model = RailsAdmin::AbstractModel.new(to_model_name(params[:source_abstract_model]))
+    source_model_config = source_abstract_model.config
+    source_object = source_abstract_model.get(params[:source_object_id])
+    action = params[:current_action].in?(['create', 'update']) ? params[:current_action] : 'edit'
+    @association = source_model_config.send(action).fields.find{|f| f.name == params[:associated_collection].to_sym }.with(:controller => self, :object => source_object)
+    @association.associated_collection_scope
   end
+
+  def associations_hash
+    associations = {}
+    @abstract_model.associations.each do |association|
+      if [:has_many, :has_and_belongs_to_many].include?(association[:type])
+        records = Array(@object.send(association[:name]))
+        associations[association[:name]] = records.collect(&:id)
+      end
+    end
+    associations
+  end
+
+
+
+
 end
+end
+
+
