@@ -238,6 +238,29 @@ module RailsAdmin
 
         end
       end
+
+
+      if params.has_key?(:category_cache)
+        if params[:category_cache] != "All"
+          search_query = Hash.new
+          search_query[:o] = "is"
+          search_query[:v] = params[:category_cache]
+          query_hash = Hash.new
+          query_hash["94742"] = search_query
+          if params[:f] != nil
+            params[:f][:category_cache] = query_hash
+          else 
+            params[:f] = Hash.new
+            params[:f][:category_cache] = query_hash
+          end
+        else
+          if params[:f] != nil
+            params[:f].delete(:category_cache)
+          end
+
+        end
+      end
+      
       puts query_hash
       puts params
       if params.has_key?(:f)
