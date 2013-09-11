@@ -136,25 +136,35 @@
   
     .well
       %span#filters_box
+
       -if @abstract_model.to_param.to_s.eql? "flag"
         ="Object Type: "
         %select{:name => 'object_type'}
           -items.each do |c|
             %option{:value=>c, selected: params[:object_type] == c}
               =h c  
-        <br/>
+        <br/><br/>
         ="Reason: "
         %select{:name => 'reason'}
           -reasons.each do |c|
             %option{:value=>c, selected: params[:reason] == c}
               =h c 
-        <br/>
+        <br/><br/>
         ="Status: "
         %select{:name => 'status'}
           -status.each do |c|
             %option{:value=>c, selected: params[:status] == c}
               =h c 
-        <br/>
+        <br/><br/>
+      -if @abstract_model.to_param.to_s.eql? "item"
+        ="Category: "
+        %select{:name => 'category_cache'}
+          -Tag.first_level_categorization_nodes.each do |c|
+            %option{:value=>c.tagname, selected: params[:category_cache] == c.tagname}
+              =h c.tagname
+        <br/><br/>
+
+         
       %hr.filters_box{:style => "display:#{@ordered_filters.empty? ? 'none' : 'block'}"}
       %input.input-small{:name => "query", :type => "search", :value => query, :placeholder => t("admin.misc.filter")}
       %button.btn.btn-primary{:type => "submit", :'data-disable-with' => "<i class='icon-white icon-refresh'></i> ".html_safe + t("admin.misc.refresh")}

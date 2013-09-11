@@ -20,6 +20,7 @@ module RailsAdmin
                 @ids = list_entries(false, @model_config, :export).entries.map(& :_id)
                 Exporter::Exporter.new.export_query_items @ids, current_person
                 flash[:success] = "#{@ids.count} items will be exported, you will recieve an email with export results shortly."
+                redirect_to back_or_index
              else
                render @action.template_name
            end
