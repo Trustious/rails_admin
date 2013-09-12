@@ -114,7 +114,7 @@ module RailsAdmin
       end
 
       def destroy(objects)
-        Array.wrap(objects).each &:destroy
+        Array.wrap(objects).each &:destroy_delayed
       end
 
       def primary_key
