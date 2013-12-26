@@ -45,6 +45,10 @@ en:
         title: "Site administration"
         menu: "Dashboard"
         breadcrumb: "Dashboard"
+      photopanel:
+        title: "Photo Panel"
+        menu: "Photo Panel"
+        breadcrumb: "Photopanel"
       index:
         title: "List of %{model_label_plural}"
         menu: "List"

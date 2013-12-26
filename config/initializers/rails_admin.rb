@@ -28,6 +28,7 @@ RailsAdmin.config do |config|
   
   config.actions do
     dashboard
+    photopanel
     index
     new 
     show
