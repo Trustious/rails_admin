@@ -1,0 +1,35 @@
+<div>
+  <% if !@entries.nil? %>
+    <% if @entries.count == 0 %>
+      <h1> No entries with photos to review today. You are good to go :) </h1>
+    <% else %>
+      <table>
+      <% @entries.each do |entry| %>
+        <tr>
+           <td>
+            <% item = entry.item %>
+            <% item_name = item.name + " " + item.disambiguation_label_cache %>
+            <%= link_to item_name, photopanel_path('entry_id' => entry.id, 'item_name' => item_name) %>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+    <% end %>
+  <% else %>
+    <h1> <%= @item_name %> </h1>
+    <form action="photopanel" >
+       <input type="submit" value="Submit" style="margin-left: 600px"></br></br>
+      <input type="hidden" name="reviews" value="true">
+      <input type="hidden" name="entry_id" value=<%= @entry_id %>>
+      <% @photos.each do |photo| %>
+        <div style="display: inline-block; width: 400px; height: 400px;">
+          <img src=<%= photo.url %> style="width: 100%; height: 80%;">
+          <span style="margin-left: 100px;">
+            <input type="radio" name=<%= photo.id %> value="good" style="height: 35px; width: 35px"> Good
+            <input type="radio" name=<%= photo.id %> value="bad" style="height: 35px; width: 35px"> Bad
+          </span>
+        </div>
+      <% end %>
+    </form>
+  <% end %>
+</div>
