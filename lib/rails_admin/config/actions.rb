@@ -88,6 +88,7 @@ module RailsAdmin
         def init_actions!
           @@actions ||= [
             Dashboard.new,
+            Photopanel.new,
             Index.new,
             Show.new,
             New.new,
@@ -108,6 +109,7 @@ end
 
 require 'rails_admin/config/actions/base'
 require 'rails_admin/config/actions/dashboard'
+require 'rails_admin/config/actions/photopanel'
 require 'rails_admin/config/actions/index'
 require 'rails_admin/config/actions/show'
 require 'rails_admin/config/actions/show_in_app'
