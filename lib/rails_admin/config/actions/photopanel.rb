@@ -14,18 +14,20 @@ module RailsAdmin
 
         register_instance_option :controller do
           Proc.new do
-            if params['entry_id'].nil?
-              @entries = AdminPhotoPanelManager.get_entries_with_pending_photos
-            else
+            if !params['entry_id'].nil?
               @entry_id = params['entry_id']
+              @tag = params['tag']
               if params['reviews'].nil?
                 @photos = AdminPhotoPanelManager.get_pending_photos_from_entry(@entry_id)
                 @item_name = params['item_name']
               else
                 AdminPhotoPanelManager.update_photos_states(@entry_id, params)
-                @entries = AdminPhotoPanelManager.get_entries_with_pending_photos
+                @entries = AdminPhotoPanelManager.get_entries_with_pending_photos params['tag']
                 flash[:success] = 'Reviews for the selected images submitted succesfully.'
               end
+            elsif !params['tag'].nil?
+              @entries = AdminPhotoPanelManager.get_entries_with_pending_photos params['tag']
+              @tag = params['tag']
             end
             render "photopanel"
           end
